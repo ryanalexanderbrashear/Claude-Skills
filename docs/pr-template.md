@@ -23,7 +23,9 @@ notes, and search results long after the PR page stops being read.
 SEG-7777 - Bugfix - Fix for the crashing issue
 ```
 
-Three parts, separated by a spaced hyphen, in that order.
+Three parts, separated by a spaced hyphen, in that order. Commit subjects use
+this same format — see the `commit` skill — so that under squash merge, where the
+PR title becomes the commit subject, the two never disagree.
 
 ### Ticket ID
 
