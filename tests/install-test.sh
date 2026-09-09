@@ -46,6 +46,9 @@ DEST="$WORK/dest"
 make_repo "$REPO"
 mkdir -p "$DEST"
 
+group "0. probe: file size check (BSD stat syntax)"
+check "install.sh is non-empty" "$( [ "$(stat -f %z "$INSTALL" 2>/dev/null)" -gt 0 ] && echo yes )" "yes"
+
 group "1. clean install"
 out="$(CLAUDE_SKILLS_DIR="$DEST" "$REPO/install.sh" -f 2>&1)"; rc=$?
 check "exits 0" "$rc" "0"
