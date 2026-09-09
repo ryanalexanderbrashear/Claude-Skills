@@ -28,12 +28,16 @@ CLAUDE_SKILLS_DIR=/path/to/skills ./install.sh
 ## Tests
 
 ```bash
-./tests/install-test.sh
+./tests/install-test.sh    # the install script, end to end
+./tests/split-work-test.sh # the git mechanics split-work depends on
 ```
 
-Covers the install script end to end, including the SEG-4821 regressions: a
-failed copy and an interrupted run must both leave an already-installed skill
-exactly as it was.
+`install-test.sh` covers the SEG-4821 regressions: a failed copy and an
+interrupted run must both leave an already-installed skill exactly as it was.
+
+`split-work-test.sh` covers the non-obvious git behavior the skill relies on,
+including proof that `git fetch` before `git push --force-with-lease` defeats
+the lease and destroys another person's commit.
 
 ## Skills
 
@@ -45,6 +49,7 @@ The four skills form a pipeline, though each works on its own:
 - **plan-work** — investigates one bug or feature, from a ticket or your description, and writes an implementation plan to a file for you to review and iterate on before any code is written. Reproduces a bug before planning the fix, and grounds its findings in the code with file and line references.
 - **grill-me** — interviews you relentlessly about a plan or design, one question at a time, until every branch of the decision tree is resolved. Use it on a plan you already have.
 - **address-review** — reads the outstanding review feedback on a pull request, triages it into will-fix / already-correct / needs-discussion, applies the fixes, and replies on each thread. GitHub only.
+- **split-work** — separates tangled work into coherent commits or branches, records a rescue point first, and verifies the pieces add up to exactly the original content. Uses non-interactive git throughout.
 - **create-pr** — opens a pull or merge request for the current branch on GitHub, GitLab, Bitbucket, or Azure DevOps, with the title and description written from the branch's own commits. Detects the default branch rather than assuming `main`, and detects when a branch is stacked on another unmerged branch so someone else's commits do not end up in your PR.
 
 ## Docs
