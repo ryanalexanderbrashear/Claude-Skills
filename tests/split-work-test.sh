@@ -44,8 +44,8 @@ git checkout -qb mixed
 echo x1 >> a.txt; git commit -aqm "work X1"
 echo y1 >> b.txt; git commit -aqm "work Y1"
 echo x2 >> a.txt; git commit -aqm "work X2"
-XS=$(git log --format='%H %s' main..mixed | grep ' work X' | awk '{print $1}' | tail -r 2>/dev/null || \
-     git log --format='%H %s' main..mixed | grep ' work X' | awk '{print $1}' | tac)
+# --reverse gives oldest-first directly, avoiding tail -r (BSD) vs tac (GNU)
+XS=$(git log --reverse --format='%H %s' main..mixed | grep ' work X' | awk '{print $1}')
 git checkout -q -B only-x main
 for c in $XS; do git cherry-pick "$c" >/dev/null 2>&1 || bad "cherry-pick conflicted on $c"; done
 YS=$(git log --format='%H %s' main..mixed | grep ' work Y' | awk '{print $1}')

@@ -1,0 +1,38 @@
+name: tests
+
+# The install script had a data-loss bug (SEG-4821) whose regression suite ran
+# only when someone remembered. This runs both suites on every push and PR.
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    # Both platforms: the suites were written on macOS, and the repo installs
+    # skills on whatever machine a contributor uses. GNU and BSD userlands
+    # differ enough (tail -r, awk, sed) that one runner would hide breakage.
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: git identity for the test fixtures
+        run: |
+          git config --global user.email "ci@example.com"
+          git config --global user.name "CI"
+          git config --global init.defaultBranch main
+
+      - name: install script
+        run: ./tests/install-test.sh
+
+      - name: split-work git mechanics
+        run: ./tests/split-work-test.sh
+
+      - name: install into a scratch prefix
+        run: |
+          CLAUDE_SKILLS_DIR="${RUNNER_TEMP}/skills" ./install.sh --force
+          ls "${RUNNER_TEMP}/skills"

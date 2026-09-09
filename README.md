@@ -32,6 +32,9 @@ CLAUDE_SKILLS_DIR=/path/to/skills ./install.sh
 ./tests/split-work-test.sh # the git mechanics split-work depends on
 ```
 
+Both run in CI on every push and pull request, on Linux and macOS — the
+userlands differ enough that a single runner would hide breakage.
+
 `install-test.sh` covers the SEG-4821 regressions: a failed copy and an
 interrupted run must both leave an already-installed skill exactly as it was.
 
