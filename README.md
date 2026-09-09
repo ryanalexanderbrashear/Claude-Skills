@@ -39,11 +39,12 @@ exactly as it was.
 
 The four skills form a pipeline, though each works on its own:
 
-**plan-project** → **plan-work** → **grill-me** → implement → **create-pr**
+**plan-project** → **plan-work** → **grill-me** → implement → **create-pr** → **address-review**
 
 - **plan-project** — turns a description of a project's end goal into a plan: checkable success criteria, milestones sequenced to retire the biggest unknown first, and a numbered work breakdown that `plan-work` picks up item by item. Covers both a new codebase started from nothing and a large body of work inside an existing one. Decides what gets built and in what order, and stops there.
 - **plan-work** — investigates one bug or feature, from a ticket or your description, and writes an implementation plan to a file for you to review and iterate on before any code is written. Reproduces a bug before planning the fix, and grounds its findings in the code with file and line references.
 - **grill-me** — interviews you relentlessly about a plan or design, one question at a time, until every branch of the decision tree is resolved. Use it on a plan you already have.
+- **address-review** — reads the outstanding review feedback on a pull request, triages it into will-fix / already-correct / needs-discussion, applies the fixes, and replies on each thread. GitHub only.
 - **create-pr** — opens a pull or merge request for the current branch on GitHub, GitLab, Bitbucket, or Azure DevOps, with the title and description written from the branch's own commits. Detects the default branch rather than assuming `main`, and detects when a branch is stacked on another unmerged branch so someone else's commits do not end up in your PR.
 
 ## Docs
