@@ -91,7 +91,9 @@ SourceTree.
 ### 6. Before a PR merges, decide which commits should exist
 
 Under squash merge the subject comes from the PR title and the body is **every
-branch commit's message concatenated**, each prefixed `* `. That means branch
+branch commit's message concatenated**. With more than one commit each is
+prefixed `* `; with exactly one the message is copied verbatim with no bullet.
+That means branch
 commit messages are the permanent record, and so are the review-response commits
 among them. A branch with six "address review" commits merges into a body that
 reads as a review transcript rather than as the change.
@@ -126,10 +128,12 @@ cheaper than deciding afterwards.
 
 ## Notes
 
-**Squash concatenation** was observed on a two-commit branch: the merge commit's
-subject was the PR title plus `(#N)`, and its body held both messages in full,
-each prefixed `* `. Behavior with many more commits has not been checked here —
-if a body looks truncated on a long branch, verify before relying on it.
+**Squash concatenation**, as observed here: on a two-commit branch (`4cd6ec8`)
+the body held both messages in full, each prefixed `* `; on a one-commit branch
+(`8619b52`) the body was the message verbatim with no bullet at all. GitHub
+bullets the list only when there is more than one commit. Behavior on a much
+longer branch has not been checked — if a body looks truncated, verify before
+relying on it.
 
 **This repo's history is mid-migration.** Only the most recent commits use the
 title format; earlier ones are plain imperative subjects. That is deliberate —
