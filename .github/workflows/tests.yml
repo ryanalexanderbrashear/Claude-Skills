@@ -35,6 +35,9 @@ jobs:
       - name: triage-ci log filtering
         run: ./tests/triage-ci-test.sh
 
+      - name: skill conventions
+        run: ./tests/lint-skills.sh
+
       - name: install into a scratch prefix
         run: |
           CLAUDE_SKILLS_DIR="${RUNNER_TEMP}/skills" ./install.sh --force
