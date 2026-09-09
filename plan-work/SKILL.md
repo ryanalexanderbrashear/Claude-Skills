@@ -111,6 +111,27 @@ When the user responds:
 
 Stop when the user approves the plan. Set its status to Approved.
 
+### 5. Keep the plan current through implementation
+
+If the work goes ahead — in this session or a later one — the plan stops being a
+proposal and becomes the record of what was decided. Implementation always
+learns something planning could not, so as the work proceeds, go back and
+correct it:
+
+- A finding that turned out to be wrong, or a risk that landed somewhere other
+  than predicted.
+- Scope that moved. Something listed out of scope often becomes in scope once
+  the fix exists — note why it moved rather than letting the plan disagree
+  silently with the diff.
+- A step that was replaced by a better approach, and what the code turned out to
+  require instead.
+- A check that could not be run as written, and what was done instead.
+
+This is worth the minute it takes because the plan is the raw material for the
+pull request that closes the work: a plan that still describes the change
+accurately is most of the PR description already written. A plan left frozen at
+the approved draft describes work nobody did.
+
 ## Guidelines
 
 - Do not write implementation code during this skill. The plan is the

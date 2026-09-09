@@ -11,6 +11,8 @@ Clone the repository to a location of your choice, then run the included install
 
 This copies each skill folder (any top-level directory containing a `SKILL.md`) plus the shared `docs/` folder into `~/.claude/skills`. New skills are discovered automatically — there is no list to keep up to date.
 
+A skill is staged and swapped into place rather than deleted first, so a failed or interrupted run never leaves a skill in a worse state than it was before. If one skill fails to install, the rest still install, the failure is named, and the script exits non-zero.
+
 The script prompts before overwriting anything that already exists. To skip the prompts:
 
 ```bash
@@ -22,6 +24,16 @@ To install somewhere other than `~/.claude/skills`, set `CLAUDE_SKILLS_DIR`:
 ```bash
 CLAUDE_SKILLS_DIR=/path/to/skills ./install.sh
 ```
+
+## Tests
+
+```bash
+./tests/install-test.sh
+```
+
+Covers the install script end to end, including the SEG-4821 regressions: a
+failed copy and an interrupted run must both leave an already-installed skill
+exactly as it was.
 
 ## Skills
 
