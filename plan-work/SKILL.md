@@ -48,12 +48,27 @@ feature.
 
 Read the code. A plan written from the ticket alone is a guess.
 
-- **For a bug**, find the root cause and trace it to specific lines. Reproduce it
-  if it is cheap to do so. If you cannot establish the cause, say so in the plan
-  rather than proposing a fix for a cause you assumed.
+- **For a bug, reproduce it before planning a fix.** Build the smallest case
+  that triggers it — a scratch directory, a throwaway script, a single command —
+  and run it. Reproducing is what separates a plan from a hypothesis: it
+  confirms the cause, and it routinely turns up conditions the reporter did not
+  know about. Test the reporter's speculation too, not just their symptom; a
+  comment saying "this might also happen when…" is a question you can answer.
+  Only when reproducing is genuinely impractical — it needs production data or
+  an environment you cannot reach — plan from a traced code path instead, and
+  say in the plan that the cause is unverified.
+- **Trace the cause to specific lines** once you can trigger it. If you cannot
+  establish the cause, say so in the plan rather than proposing a fix for a
+  cause you assumed.
 - **For a feature**, find the existing patterns the change should follow, the
   code it will touch, and the constraints already in place.
 - Note the file and line references as you go — the plan cites them.
+
+Distinguish what you verified from what merely produced no output. A command
+that silently prints nothing because it failed, was unsupported on this
+platform, or searched the wrong path looks exactly like a clean result. Confirm
+the check actually ran before recording it as a finding, and if you cannot,
+write it in the plan as unverified rather than as evidence.
 
 Ask the user questions the codebase cannot answer. Do not ask questions the
 codebase can.
@@ -77,6 +92,13 @@ them.
 Hand over the path and a short summary — the approach in a couple of sentences
 and the open questions. Do not paste the whole plan into the conversation; the
 file is the artifact.
+
+Lead the summary with what the investigation **changed** about the ticket's
+account of the problem: a cause that turned out to be different, a second
+failure mode the reporter did not know about, a claim that did not reproduce, a
+constraint that rules out the obvious fix. That is the part the user cannot
+predict and most needs to see. Where the investigation simply confirmed the
+ticket, say that plainly — it is also information.
 
 When the user responds:
 
