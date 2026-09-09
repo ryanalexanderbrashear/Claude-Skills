@@ -64,6 +64,26 @@ fail() {
   return 1
 }
 
+# Drop anything git ignores from a staged copy. docs/projects/ is gitignored so
+# project plans stay out of the repo; copying them into the skills directory
+# anyway would defeat that, and they would travel with a synced ~/.claude.
+prune_ignored() {
+  local staged="$1" origin="$2" rel
+  if command -v git >/dev/null 2>&1 &&
+     git -C "$REPO_DIR" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+    while IFS= read -r p; do
+      rel="${p#"$staged"/}"
+      if git -C "$REPO_DIR" check-ignore -q "$origin/$rel" 2>/dev/null; then
+        rm -rf "$p"
+      fi
+    done < <(find "$staged" -mindepth 1)
+  else
+    # No git available (a fresh machine, a tarball): fall back to the one
+    # path this convention is actually about.
+    rm -rf "$staged/projects"
+  fi
+}
+
 # copy_dir <source dir> <require SKILL.md: 1|0>
 copy_dir() {
   local src="$1"
@@ -90,6 +110,8 @@ copy_dir() {
     fail "$name" "copy failed; existing install left untouched"
     return 1
   fi
+
+  prune_ignored "$staging" "$src"
 
   # A partial copy is worse than a missing one, because nothing signals it.
   if [[ $require_skill -eq 1 && ! -f "$staging/SKILL.md" ]]; then

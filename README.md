@@ -31,6 +31,7 @@ CLAUDE_SKILLS_DIR=/path/to/skills ./install.sh
 ./tests/install-test.sh    # the install script, end to end
 ./tests/split-work-test.sh # the git mechanics split-work depends on
 ./tests/triage-ci-test.sh  # the log filtering triage-ci prescribes
+./tests/lint-skills.sh     # this repo's own conventions, across every skill
 ```
 
 Both run in CI on every push and pull request, on Linux and macOS — the

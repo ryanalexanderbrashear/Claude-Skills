@@ -125,6 +125,30 @@ check "exits 0" "$rc" "0"
 check "skips every skill" "$(grep -c 'skipped' <<<"$out")" "3"
 check "still reaches the end" "$(grep -c 'Done.' <<<"$out")" "1"
 
+group "9. gitignored paths are not installed"
+# docs/projects/ is gitignored so project plans stay out of the public repo.
+# Copying them into ~/.claude/skills anyway defeats that.
+GREPO="$WORK/gitrepo"
+make_repo "$GREPO"
+(
+  cd "$GREPO" || exit 1
+  git init -q -b main . 2>/dev/null
+  git config user.email t@t; git config user.name T
+  printf 'docs/private/\n' > .gitignore
+  mkdir -p docs/private
+  printf 'secret plan\n' > docs/private/plan.md
+  git add -A >/dev/null 2>&1; git commit -qm base >/dev/null 2>&1
+)
+GDEST="$WORK/gitdest"; rm -rf "$GDEST"; mkdir -p "$GDEST"
+CLAUDE_SKILLS_DIR="$GDEST" "$GREPO/install.sh" -f >/dev/null 2>&1
+check "fixture: the ignored file exists in the source" \
+  "$([[ -f "$GREPO/docs/private/plan.md" ]] && echo yes)" "yes"
+check "fixture: git agrees it is ignored" \
+  "$(cd "$GREPO" && git check-ignore -q docs/private/plan.md && echo yes)" "yes"
+check "tracked docs are installed" "$([[ -f "$GDEST/docs/guide.md" ]] && echo yes)" "yes"
+check "gitignored docs are NOT installed" \
+  "$([[ -e "$GDEST/docs/private" ]] && echo present || echo absent)" "absent"
+
 group "8. a fresh destination that does not exist yet"
 out="$(CLAUDE_SKILLS_DIR="$WORK/brand-new" "$REPO/install.sh" -f 2>&1)"; rc=$?
 check "exits 0" "$rc" "0"
