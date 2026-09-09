@@ -62,6 +62,12 @@ Read the code. A plan written from the ticket alone is a guess.
   cause you assumed.
 - **For a feature**, find the existing patterns the change should follow, the
   code it will touch, and the constraints already in place.
+- **In an unfamiliar codebase, trust the declared entry point over the README.**
+  Packaging and build config say what actually runs; the README says what
+  someone once intended. The declaration is often not in the obvious file — a
+  Python project may put `console_scripts` in `setup.cfg` rather than
+  `pyproject.toml` — and searching for a `main` function instead will surface
+  documentation tooling alongside the real one.
 - Note the file and line references as you go — the plan cites them.
 
 Distinguish what you verified from what merely produced no output. A command
