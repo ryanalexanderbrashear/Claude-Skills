@@ -92,6 +92,21 @@ Stop and hand back on a cherry-pick conflict rather than resolving it silently �
 tangled work is why this skill was called, so conflicts are expected, and the
 user should see them.
 
+**Say what state the conflict left behind**, because a half-finished sequence is
+not obvious from the error. Earlier picks in the batch are already committed on
+the new branch; the conflicting one is half-applied in the index; and git is
+still mid-sequence until told otherwise. The two exits:
+
+```bash
+git cherry-pick --abort   # rewinds the whole sequence, including earlier picks
+git cherry-pick --quit    # keeps the commits that landed, drops the sequencer
+```
+
+`--abort` is the safer default when the split can simply be retried. Use
+`--quit` only when the commits that landed are worth keeping, and say which
+commits those are. Either way the rescue point from step 1 is still the
+backstop.
+
 ### 6. Verify the pieces add up to the original
 
 ```bash
@@ -134,9 +149,18 @@ Treat the lease as a backstop, not as the check. See Notes.
 
 If `git branch -d` refuses on a branch you believe is merged, diagnose before
 forcing. The usual cause is a rewritten branch whose tracking ref still holds
-the pre-rewrite commit. Confirm the content is genuinely present in the target —
-`diff <(git show <branch>:<file>) <(git show <target>:<file>)` or compare trees —
-and only then use `-D`. Never force-delete on the strength of the refusal alone.
+the pre-rewrite commit.
+
+Verify mechanically rather than by eye. `git cherry` compares by patch-id, so it
+sees a commit as present even after a rebase or cherry-pick changed its SHA:
+
+```bash
+git cherry <target> <branch> | grep '^+' && echo "NOT fully merged" || echo "safe to delete"
+```
+
+Every line prefixed `-` is a commit whose content is already in the target; a
+`+` is one that is not. Only when nothing is prefixed `+` is `-D` safe. Never
+force-delete on the strength of the refusal message alone.
 
 ## Guidelines
 
