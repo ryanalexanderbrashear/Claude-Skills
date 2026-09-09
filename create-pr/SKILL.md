@@ -20,7 +20,20 @@ existing PR — do those directly.
 
 ## Instructions
 
-### 1. Establish the base branch
+### 1. Establish the base branch and how the PR will be created
+
+Find out up front whether a CLI is available, so you learn how this PR will be
+opened before spending the work of drafting it — not after:
+
+```bash
+git remote get-url origin              # which platform
+command -v gh || command -v glab || command -v az
+```
+
+If none is available, or the host is unrecognised, the fallback in step 5 is
+what will run. Say so now rather than at the end: the user may want to install
+and authenticate the CLI first, and that is much cheaper to hear before the
+description is written than after.
 
 The default branch is often but not always `main`. Detect it rather than
 assuming:
@@ -38,18 +51,33 @@ that is an ancestor of `HEAD` but not of the default branch is a candidate base:
 BASE=<default branch>
 CURRENT=$(git branch --show-current)
 for b in $(git for-each-ref --format='%(refname:short)' refs/heads refs/remotes); do
-  case "$b" in "$CURRENT"|"origin/$CURRENT") continue;; esac
+  name="$b"
+  for r in $(git remote); do name="${name#$r/}"; done   # origin/feat-a -> feat-a
+  [ "$name" = "$CURRENT" ] || [ "$name" = "$BASE" ] && continue
   git merge-base --is-ancestor "$b" HEAD 2>/dev/null || continue
   git merge-base --is-ancestor "$b" "$BASE" 2>/dev/null && continue
-  echo "$b"
-done
+  echo "$(git rev-list --count "$BASE..$(git merge-base "$b" HEAD)") $name"
+done | sort -rn | awk '!seen[$2]++'
 ```
 
+Stripping the remote prefix and deduplicating matters: without it a two-branch
+stack reports four candidates, because the local branch and its remote-tracking
+ref are both ancestors of `HEAD`.
+
 If that prints nothing, the default branch is the base. If it prints candidates,
-the branch is stacked: the real base is the candidate nearest `HEAD` (the one
-whose merge-base with `HEAD` is the most recent commit). Tell the user what you
-found and confirm the base before continuing — targeting the wrong base puts
-someone else's unmerged commits in this PR.
+the branch is stacked. Each line is `<commits ahead of base> <branch>`, sorted
+so **the first line is the likely base** — the candidate whose merge-base with
+`HEAD` is furthest from the default branch, which is the nearest parent in the
+stack. Deeper stacks print their whole chain, nearest first.
+
+Tell the user what you found and confirm the base before continuing — targeting
+the wrong base puts someone else's unmerged commits in this PR. Show them the
+difference concretely, since it is the whole point:
+
+```bash
+git log --oneline --no-merges "$BASE..HEAD"        # what a base-branch PR would contain
+git log --oneline --no-merges "<candidate>..HEAD"  # what a stacked PR would contain
+```
 
 ### 2. Read only this branch's work
 
@@ -110,11 +138,20 @@ Identify the host with `git remote get-url origin`. Add `--draft` (`glab`: also
 `--draft`) when the user asks for a draft.
 
 If the CLI is missing, unauthenticated, or the host is unrecognised, do not
-guess at an API call. Print the finished title and description for the user to
-paste, along with the compare URL for their host — for GitHub,
-`<repo-url>/compare/<base>...<branch>?expand=1`.
+guess at an API call. Fall back to handing the user everything they need to open
+it themselves:
 
-Report the PR URL when it succeeds.
+1. **Push the branch anyway** (with the same confirmation as above). The compare
+   URL resolves to nothing until the branch exists on the remote, so skipping
+   the push makes the rest of the fallback useless.
+2. Give them the compare URL for their host — for GitHub,
+   `<repo-url>/compare/<base>...<branch>?expand=1`. Derive the web URL from the
+   remote, stripping any trailing `.git` and converting an SSH remote
+   (`git@host:owner/repo.git`) to `https://host/owner/repo`.
+3. Give them the title, and the path to the body file so they can paste it
+   without it being mangled by the terminal. Offer to print it inline instead.
+
+Report the PR URL when the CLI path succeeds.
 
 ## Guidelines
 
