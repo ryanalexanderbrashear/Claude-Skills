@@ -32,6 +32,9 @@ jobs:
       - name: split-work git mechanics
         run: ./tests/split-work-test.sh
 
+      - name: triage-ci log filtering
+        run: ./tests/triage-ci-test.sh
+
       - name: install into a scratch prefix
         run: |
           CLAUDE_SKILLS_DIR="${RUNNER_TEMP}/skills" ./install.sh --force
