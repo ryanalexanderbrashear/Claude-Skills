@@ -26,3 +26,9 @@ CLAUDE_SKILLS_DIR=/path/to/skills ./install.sh
 ## Skills
 
 - **grill-me** — interviews you relentlessly about a plan or design until every branch of the decision tree is resolved.
+
+## Docs
+
+Shared reference material, installed alongside the skills so Claude can draw on it from any project.
+
+- **[pr-template.md](docs/pr-template.md)** — guidelines for writing a pull request, plus a copy-paste template. Covers title format (`SEG-7777 - Bugfix - Fix for the crashing issue`), description, screenshots, testing instructions, change splash zone, risk and rollback, and related links.

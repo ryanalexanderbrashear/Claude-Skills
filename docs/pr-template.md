@@ -16,39 +16,80 @@ notes, and search results long after the PR page stops being read.
 **Format:**
 
 ```
-<TICKET-ID>: <imperative summary of the change>
+<TICKET-ID> - <Descriptor> - <Summary of the change>
 ```
 
-- **Ticket descriptor first**, when the work tracks to a ticket. Use the full
-  identifier — workspace prefix plus number — exactly as the tracker writes it:
-  `SEG-7777` is ticket 7777 in the SEG workspace. This makes the PR
-  auto-link in JIRA and makes the log greppable by workspace.
-- **No ticket?** Drop the prefix entirely rather than inventing one. Do not use
-  `NO-TICKET`, `N/A`, or an empty bracket.
-- **Imperative mood**, as if completing "This PR will…": `Add`, `Fix`,
+```
+SEG-7777 - Bugfix - Fix for the crashing issue
+```
+
+Three parts, separated by a spaced hyphen, in that order.
+
+### Ticket ID
+
+- **Use the full identifier** — workspace prefix plus number — exactly as the
+  tracker writes it: `SEG-7777` is ticket 7777 in the SEG workspace. This makes
+  the PR auto-link in JIRA and makes the log greppable by workspace.
+- **No ticket?** Drop the segment entirely and lead with the descriptor
+  (`Docs - Correct the install path in the README`). Do not invent a
+  placeholder such as `NO-TICKET`, `N/A`, or an empty bracket.
+
+### Descriptor
+
+A single word naming the *kind* of work, so a reader scanning the log can tell
+a risky change from a routine one without opening it. Pick the one that
+describes the bulk of the diff — if a PR is genuinely two kinds of work, that is
+usually a sign it should be two PRs.
+
+| Descriptor | Use for |
+| --- | --- |
+| `Bugfix` | Correcting behavior that was wrong |
+| `Hotfix` | An urgent production fix, usually shipping outside the normal release |
+| `Feature` | New user-facing capability |
+| `Enhancement` | Extending or improving something that already exists |
+| `Refactor` | Restructuring with no intended change in behavior |
+| `Perf` | Changes made for speed, memory, or cost |
+| `Test` | Adding or repairing test coverage only |
+| `Docs` | Documentation, comments, READMEs |
+| `Chore` | Build, tooling, CI, formatting, dependency bumps |
+| `Config` | Environment, flags, or infrastructure settings |
+| `Revert` | Backing out a previous change |
+| `Spike` | Exploratory or proof-of-concept work not meant to ship as-is |
+
+Capitalize it as written above, and keep the vocabulary closed — an invented
+descriptor defeats the point of having one.
+
+### Summary
+
+- **Describe the change, not the file.** `Fix race condition in session refresh`
+  beats `Update auth.ts`.
+- **Prefer the imperative**, as if completing "This PR will…": `Add`, `Fix`,
   `Remove`, `Refactor` — not `Added`, `Fixes`, `Fixing`.
-- **Describe the change, not the file.** `Fix race condition in session
-  refresh` beats `Update auth.ts`.
-- **Keep it under ~70 characters** so it is not truncated in list views. Detail
-  belongs in the description, not the title.
+- **Do not restate the descriptor.** `Bugfix - Bug fix for the login bug` wastes
+  the whole line.
+- **Keep the full title under ~80 characters** so it is not truncated in list
+  views. The ticket and descriptor consume roughly 20 of those, so the summary
+  itself should stay short. Detail belongs in the description, not the title.
 - **Mark work that is not ready** with a `Draft` PR, or prefix `WIP:` if drafts
   are unavailable.
 
 **Good:**
 
 ```
-SEG-7777: Retry token refresh on 401 instead of logging the user out
-SEG-1042: Remove the unused legacy invoice exporter
-Correct the install path in the README
+SEG-7777 - Bugfix - Retry token refresh on 401 instead of logging out
+SEG-1042 - Chore - Remove the unused legacy invoice exporter
+SEG-0311 - Feature - Add CSV export to the billing dashboard
+Docs - Correct the install path in the README
 ```
 
 **Avoid:**
 
 ```
-Bug fix                      — which bug?
-SEG-7777                     — ticket number with no summary
-Updates per review feedback  — describes the process, not the change
-fix(auth): stuff             — conventional-commit shell with no content
+Bug fix                                — which bug? no ticket, no summary
+SEG-7777                               — ticket number with no descriptor or summary
+SEG-7777 - Fix the crash               — missing the descriptor
+SEG-7777 - Bugfix - Bug fix            — summary restates the descriptor
+SEG-7777 - Stuff - Updates per review  — invented descriptor, describes the process
 ```
 
 ---
