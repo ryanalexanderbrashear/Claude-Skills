@@ -26,6 +26,7 @@ CLAUDE_SKILLS_DIR=/path/to/skills ./install.sh
 ## Skills
 
 - **create-pr** — opens a pull or merge request for the current branch on GitHub, GitLab, Bitbucket, or Azure DevOps, with the title and description written from the branch's own commits using the template below.
+- **plan-work** — investigates a bug or feature from a ticket or your description, then writes an implementation plan to a file for you to review and iterate on before any code is written.
 - **grill-me** — interviews you relentlessly about a plan or design until every branch of the decision tree is resolved.
 
 ## Docs
@@ -33,4 +34,5 @@ CLAUDE_SKILLS_DIR=/path/to/skills ./install.sh
 Shared reference material, installed alongside the skills so Claude can draw on it from any project.
 
 - **[pr-template.md](docs/pr-template.md)** — guidelines for writing a pull request, plus a copy-paste template. Covers title format (`SEG-7777 - Bugfix - Fix for the crashing issue`), description, screenshots, testing instructions, change splash zone, risk and rollback, and related links.
+- **[plan-template.md](docs/plan-template.md)** — the structure of an implementation plan: problem, findings, root cause, approach, steps, testing, risks, and open questions. Its sections map onto the PR template, so a good plan is most of the eventual PR description.
 - **[skill-template.md](docs/skill-template.md)** — the shared layout every skill in this repo follows, and the conventions for writing a new one.
