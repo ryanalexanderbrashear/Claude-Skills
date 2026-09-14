@@ -21,11 +21,10 @@ written when the item is next up rather than all at once.
 - **Brownfield** — a large body of work inside a codebase that already exists: a
   migration, a rewrite, a major feature, paying down a class of debt.
 
-They differ in where the constraints come from, not in the shape of the plan. A
-greenfield project's constraints come from the target platform, the house
-conventions, and whatever it must integrate with; a brownfield project's come
-from the code that is already there. Both need success criteria, milestones, and
-a work breakdown, and the steps below say where the two diverge.
+They differ in where the constraints come from, not in the shape of the plan —
+the platform and what it must integrate with, or the code that is already there.
+Both need success criteria, milestones and a work breakdown; the steps below say
+where the two diverge.
 
 ## When to use
 
@@ -173,6 +172,14 @@ land, link their pull requests, and re-plan later milestones as earlier ones
 teach you something. That re-planning is the design working, not a failure of
 the original plan.
 
+### 7. Audit at every milestone boundary
+
+When a milestone's last item merges, audit before starting the next, and put the
+audit in the plan as part of the sequence so it is scheduled rather than recalled.
+Follow `~/.claude/skills/docs/milestone-audit.md` (repo path:
+`docs/milestone-audit.md`): **audit by using the thing, not by reading the list**,
+record the verdict beside the milestone, and schedule what it found as items.
+
 ## Guidelines
 
 - Do not write implementation code, and do not write the per-item `plan-work`
@@ -187,5 +194,6 @@ the original plan.
   "p95 under 400ms" can.
 - Say when the goal is unclear enough that planning it would be theatre, and ask
   rather than producing a confident-looking plan over a guess.
+- Audit each milestone by using the system, not by reading the work items.
 - If the work turns out to fit in one change, say so and offer `plan-work`
   instead.
