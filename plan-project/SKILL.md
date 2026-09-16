@@ -167,10 +167,9 @@ plan into the conversation.
 Edit the file in place as the user pushes back. Keep the open questions current,
 and mark which ones block starting versus which can wait.
 
-Once work begins, the plan is a live document: update work-item status as items
-land, link their pull requests, and re-plan later milestones as earlier ones
-teach you something. That re-planning is the design working, not a failure of
-the original plan.
+Once work begins the plan is live: update item status as work lands, link its
+pull requests, and re-plan later milestones as earlier ones teach you something.
+That re-planning is the design working, not a failure of the original plan.
 
 ### 7. Audit at every milestone boundary
 
@@ -192,8 +191,9 @@ record the verdict beside the milestone, and schedule what it found as items.
   accumulation far more often than by under-reach.
 - Make success criteria checkable. "Better performance" cannot be delivered;
   "p95 under 400ms" can.
+- **Assume production, and decide observability with the skeleton.** A
+  correlated request id is one wrapper in M1 and every call site later.
 - Say when the goal is unclear enough that planning it would be theatre, and ask
   rather than producing a confident-looking plan over a guess.
-- Audit each milestone by using the system, not by reading the work items.
 - If the work turns out to fit in one change, say so and offer `plan-work`
   instead.

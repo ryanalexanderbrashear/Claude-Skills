@@ -68,6 +68,10 @@ Read the code. A plan written from the ticket alone is a guess.
   Python project may put `console_scripts` in `setup.cfg` rather than
   `pyproject.toml` — and searching for a `main` function instead will surface
   documentation tooling alongside the real one.
+- **Find out what the system already tells you about itself.** Read the logging,
+  the error handling and the health checks on the path you are about to change,
+  so the plan's Observability section names real signals rather than proposing a
+  parallel set. A defect that is already logged and never noticed is a finding.
 - Note the file and line references as you go — the plan cites them.
 
 Distinguish what you verified from what merely produced no output. A command
@@ -151,5 +155,8 @@ the approved draft describes work nobody did.
   work you noticed under Out of scope instead of folding it in.
 - Recommend an answer for every open question. A question without a
   recommendation pushes the work back onto the user.
+- **Plan for production, and say how the change will be debugged and audited
+  there.** Assume the code outlives the session, runs where nobody is watching,
+  and will be read by someone under time pressure who did not write it.
 - If the work turns out to be smaller than it looked, say so and offer to just
   do it.

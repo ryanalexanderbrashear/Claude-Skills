@@ -46,11 +46,12 @@ the lease and destroys another person's commit.
 
 ## Skills
 
-The four skills form a pipeline, though each works on its own:
+The skills form a pipeline, though each works on its own:
 
-**plan-project** → **plan-work** → **grill-me** → implement → **create-pr** → **address-review**
+**plan-project** → **file-issue** → **plan-work** → **grill-me** → implement → **create-pr** → **address-review**
 
 - **plan-project** — turns a description of a project's end goal into a plan: checkable success criteria, milestones sequenced to retire the biggest unknown first, and a numbered work breakdown that `plan-work` picks up item by item. Covers both a new codebase started from nothing and a large body of work inside an existing one. Decides what gets built and in what order, and stops there.
+- **file-issue** — files a bug or a discovered piece of work in the project's real tracker, found by reading the repo rather than assumed from the host, with the report in the reporter's words and the cause traced or explicitly marked unknown. Untracked work does not exist.
 - **plan-work** — investigates one bug or feature, from a ticket or your description, and writes an implementation plan to a file for you to review and iterate on before any code is written. Reproduces a bug before planning the fix, and grounds its findings in the code with file and line references.
 - **grill-me** — interviews you relentlessly about a plan or design, one question at a time, until every branch of the decision tree is resolved. Use it on a plan you already have.
 - **address-review** — reads the outstanding review feedback on a pull request, triages it into will-fix / already-correct / needs-discussion, applies the fixes, and replies on each thread. GitHub only.
@@ -64,8 +65,8 @@ The four skills form a pipeline, though each works on its own:
 
 Shared reference material, installed alongside the skills so Claude can draw on it from any project. The templates are the substance of the skills — a skill decides what to do, the template decides what the result looks like.
 
-- **[project-template.md](docs/project-template.md)** — the structure of a project plan: goal and success criteria, non-goals, constraints, starting point, approach, outcome-defined milestones, a work-item table, risks, and open questions.
-- **[plan-template.md](docs/plan-template.md)** — the structure of an implementation plan: problem, findings, root cause, approach, steps, testing, risks, and open questions. Its sections map onto the PR template, so a good plan is most of the eventual PR description already written.
+- **[project-template.md](docs/project-template.md)** — the structure of a project plan: goal and success criteria, non-goals, constraints, starting point, approach, observability, outcome-defined milestones, a work-item table, risks, and open questions. Observability is decided with the walking skeleton, because a request id costs one wrapper at M1 and every call site afterwards.
+- **[plan-template.md](docs/plan-template.md)** — the structure of an implementation plan: problem, findings, root cause, approach, steps, testing, observability, risks, and open questions. Every plan assumes production code that someone will have to debug and audit — tests prove the change works on a machine you control, observability is how anyone finds out what it did on a machine you do not. Its sections map onto the PR template, so a good plan is most of the eventual PR description already written.
 - **[pr-template.md](docs/pr-template.md)** — guidelines for writing a pull request, plus a copy-paste template. Covers title format (`SEG-7777 - Bugfix - Fix for the crashing issue`), description, screenshots, testing instructions, change splash zone, risk and rollback, and related links.
 - **[milestone-audit.md](docs/milestone-audit.md)** — how to audit a milestone before starting the next one: audit by using the system rather than reading the work items, the three questions to ask, where to record the verdict, and why an audit that finds nothing is usually an audit that did not happen.
 - **[skill-template.md](docs/skill-template.md)** — the shared layout every skill here follows, and the conventions for writing a new one.

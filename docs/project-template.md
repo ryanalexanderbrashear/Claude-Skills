@@ -63,6 +63,23 @@ answered yet. A new project planned in a vacuum is planned wrong.>
 alternatives considered and why each was rejected — at project scale these are
 the decisions that are expensive to revisit.>
 
+## Observability
+
+<How anyone will know what this system is doing once it is running and nobody is
+watching: the log format and where logs go, the identifier that correlates one
+request end to end, what is recorded for audit and for how long, and what a
+person looks at first when a user reports that something is broken.
+
+Decide this at M1, with the walking skeleton, rather than after the first
+production incident. A request id threaded through from the start costs one
+wrapper; retrofitted, it costs every call site. The same is true of structured
+logs, of the rule about what must never be logged, and of the audit trail —
+each is cheap in a skeleton and expensive in a system.
+
+Say explicitly what is deliberately not built yet, and what would trigger
+building it. "No metrics stack until something is deployed" is a decision; no
+mention of metrics is an omission.>
+
 ## Milestones
 
 Each milestone is defined by an outcome, not by activity, and leaves the system
@@ -71,6 +88,9 @@ in a working state that someone could look at.
 For a new project, M1 is a walking skeleton: the thinnest slice that runs end to
 end in its real environment, not the scaffolding. Scaffolding proves nothing and
 defers the integration risks; a skeleton that runs retires them immediately.
+**A skeleton that cannot be observed is not running end to end** — whatever
+signal the Observability section names as the minimum belongs in M1, not in a
+later milestone about hardening.
 
 ### M1 — <name>
 

@@ -11,6 +11,14 @@ differently. Sections that genuinely do not apply are deleted, not filled with
 Number the implementation steps and the open questions. The user will refer to
 them by number when asking for changes.
 
+**Assume this is production code that someone will have to debug and audit.**
+Not a prototype, not a demo, not something only its author runs. That assumption
+is what earns the Observability section its place beside Testing: tests prove
+the change works on a machine you control, and observability is how anyone finds
+out what it did on a machine you do not. Observability is the one section that is
+rarely genuinely inapplicable — "the existing request log already covers this"
+is a valid answer, and it is still an answer.
+
 ## Layout
 
 ```markdown
@@ -56,6 +64,18 @@ user is most likely to overturn.>
 <How the change will be verified: the automated tests to add or update, and the
 manual checks that cannot be automated. If some part cannot be tested, say why.>
 
+## Observability
+
+<How a failure in this change will be noticed, diagnosed and audited once it is
+running in production and nobody is watching. Name the signal, not the
+intention: which log line, at which level, carrying which identifiers; what a
+person greps for at 3am; what an auditor reads to reconstruct who did what.
+
+If the change adds a slow path, say what makes slowness visible. If it adds a
+guard, say what a tripped guard looks like from outside the process. If existing
+signals already cover it, say which ones and why they are enough — that is a
+finding, not a skipped section.>
+
 ## Risks and unknowns
 
 - <What could go wrong, what is uncertain, what depends on something outside
@@ -81,6 +101,7 @@ change ships, the sections map onto `pr-template.md` directly:
 | Problem | Description — why this change exists |
 | Approach | Description — why this approach, alternatives rejected |
 | Testing | Testing instructions |
+| Observability | Risk and rollback — how a problem gets noticed |
 | Findings, Risks and unknowns | Change splash zone, Risk and rollback |
 | Out of scope | Description — what is deliberately not here |
 
