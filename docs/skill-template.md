@@ -7,6 +7,12 @@ repository root containing a `SKILL.md`; the folder name and the frontmatter
 Keep skills short. A skill is a prompt, not a manual — every line competes for
 the model's attention, so cut anything the model would do correctly on its own.
 
+`tests/lint-skills.sh` fails a skill at **300 lines** and notes one past **220**.
+The note is the useful one: length is a proxy for "has this grown a second job?",
+which is a judgement, so it reports and lets the author answer. The hard limit
+only catches runaway. Neither number is a target — most skills here sit between
+120 and 200, and the shortest is the one that needed the least.
+
 ## Layout
 
 ```markdown

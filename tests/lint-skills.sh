@@ -23,6 +23,10 @@ check() { if [[ "$2" == "$3" ]]; then ok "$1"; else bad "$1 (expected '$3', got 
 group() { printf '\n%s\n' "$1"; }
 warn()  { printf '  \033[33mwarn\033[0m %s\n' "$1"; }
 
+# See the length check below for how these two are calibrated.
+SKILL_LINE_LIMIT=300
+SKILL_LINE_NOTICE=220
+
 skills=()
 for d in */; do
   d="${d%/}"
@@ -55,9 +59,25 @@ for d in "${skills[@]}"; do
     check "has section '$sec'" "$(grep -c "^$sec\$" "$f")" "1"
   done
 
-  # Past ~200 lines a skill is usually doing two jobs.
+  # Length is a proxy for "has this grown two jobs?", which is a judgement — so it
+  # warns where judgement is wanted and fails only where the answer is obvious.
+  #
+  # The old single limit of 200 was calibrated when the longest skill was 191, and by
+  # the time it was next measured `plan-project` was at 199 and `split-work` at 193:
+  # two of ten within 4% of a ceiling that then had to be paid for out of unrelated
+  # work. A limit the largest skills live against is a budget, not a smoke alarm.
+  #
+  # LIMIT is twice the median (~150), because a skill at twice the typical length is
+  # plausibly two skills. NOTICE keeps the old number's signal without its veto.
   lines=$(grep -c '' "$f")
-  check "under 200 lines (is $lines)" "$([[ $lines -lt 200 ]] && echo yes)" "yes"
+  if [[ $lines -ge $SKILL_LINE_LIMIT ]]; then
+    bad "under $SKILL_LINE_LIMIT lines (is $lines)"
+  elif [[ $lines -ge $SKILL_LINE_NOTICE ]]; then
+    ok "under $SKILL_LINE_LIMIT lines (is $lines)"
+    warn "$d is $lines lines — worth asking whether it has grown a second job"
+  else
+    ok "under $SKILL_LINE_LIMIT lines (is $lines)"
+  fi
 
   check "listed in the README" "$(grep -c "^- \*\*$d\*\*" README.md)" "1"
 done
