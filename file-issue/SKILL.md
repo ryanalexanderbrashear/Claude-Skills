@@ -21,7 +21,10 @@ if it is not worth a ticket, say so rather than filing noise.
 - A plan's Out of scope section names something that needs a follow-up.
 
 Do not use this to write an implementation plan — that is `plan-work`, which
-runs *after* the issue exists and reads it as input. Do not use it to triage a
+runs *after* the issue exists, reads it as input, and posts its plan as a comment
+on it. Which is the reason the body written here matters beyond filing: it is the
+problem statement a plan gets appended to, and it stays the problem rather than
+being replaced by the solution. Do not use it to triage a
 failing CI run; that is `triage-ci`.
 
 ## Instructions

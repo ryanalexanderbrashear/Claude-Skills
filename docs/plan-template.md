@@ -3,6 +3,11 @@
 The structure for an implementation plan written for review before any code is
 written. Used by the `plan-work` skill.
 
+**This goes in a comment on the ticket**, not in a file — see that skill's step 3
+for why, and for the one case that still wants a file. The `## Layout` below is
+the comment body verbatim, headings and all. The ticket's own body stays the
+problem as reported; the plan does not replace it.
+
 A plan exists so the user can disagree cheaply — before the work is done, not
 after. Every section below is there to expose a decision they might make
 differently. Sections that genuinely do not apply are deleted, not filled with
@@ -106,3 +111,10 @@ change ships, the sections map onto `pr-template.md` directly:
 | Out of scope | Description — what is deliberately not here |
 
 Writing the plan well means the PR description is largely already written.
+
+**One section belongs in the PR rather than only on the ticket**: what
+implementation changed about the plan. A comment's edit history is not in the
+repository and not in the diff, so the corrected plan on the ticket serves whoever
+is reading the ticket, and the PR description serves whoever is reading the code —
+which is the audience that will still be here in a year. Say it in both; they are
+different readers, not a duplicated paragraph.

@@ -1,14 +1,15 @@
 ---
 name: plan-work
-description: Investigate a bug or feature from a ticket or a user's description, then write an implementation plan to a file for the user to review and iterate on before any code is written. Use when the user wants a plan, wants work scoped or broken down, asks how they would approach a ticket, or hands over a ticket ID, ticket URL, or bug report.
+description: Investigate a bug or feature from a ticket or a user's description, then write an implementation plan onto the ticket for the user to review and iterate on before any code is written. Use when the user wants a plan, wants work scoped or broken down, asks how they would approach a ticket, or hands over a ticket ID, ticket URL, or bug report.
 ---
 
 # Plan work from a ticket or description
 
-Turn a ticket or a description of a bug or feature into an implementation plan,
-written to a file the user can read, argue with, and revise. A finished result
-is a plan the user has approved — grounded in the actual code, with the open
-decisions surfaced rather than guessed at.
+Turn a ticket or a description of a bug or feature into an implementation plan
+the user can read, argue with, and revise — written onto the ticket, where the
+work is already tracked. A finished result is a plan the user has approved —
+grounded in the actual code, with the open decisions surfaced rather than
+guessed at.
 
 ## When to use
 
@@ -83,25 +84,46 @@ write it in the plan as unverified rather than as evidence.
 Ask the user questions the codebase cannot answer. Do not ask questions the
 codebase can.
 
-### 3. Write the plan to a file
+### 3. Put the plan on the ticket
 
 Follow `~/.claude/skills/docs/plan-template.md` (repo path:
 `docs/plan-template.md`).
 
-Write it to the session scratchpad directory, named for the ticket or the work:
-`<TICKET-ID>-plan.md`, or a short slug when there is no ticket. Tell the user
-the full path so they can open it. If the user wants the plan kept beyond the
-session or shared with others, write it into the repository instead and ask
-whether it should be committed or ignored.
+**The plan is a comment on the ticket, not a file.** A plan is about work in
+flight, and the tracker is where work in flight belongs — it is where a
+contributor looks, it is linked from the pull request, and it does not become a
+second copy of the schedule that nobody checks.
+
+```bash
+gh issue comment <number> --body-file <path>     # write the body to a temp file first
+```
+
+**Post it as a comment; never overwrite the ticket's body.** The body is the
+problem in the reporter's words, and replacing it with the solution means nobody
+can tell six months later what was originally reported.
+
+Write the body to a temp file and pass `--body-file`. A plan contains backticks,
+quotes and dollar signs, and a heredoc through a shell is where those get
+mangled.
+
+Record the status where it can be filtered rather than grepped — a label
+(`plan:draft`, `plan:approved`) if the project uses them, and in the comment's
+own `**Status:**` line either way.
+
+**Write a file instead when there is no tracker**, or when the user asks for one:
+the session scratchpad, or the repository if they want it kept. Follow
+`file-issue`'s rules for finding the tracker rather than assuming GitHub — a
+repository hosted on one forge may track its work in another, and a plan filed
+where nobody looks is worse than a plan in a file.
 
 Number the implementation steps and the open questions so the user can refer to
 them.
 
 ### 4. Iterate with the user
 
-Hand over the path and a short summary — the approach in a couple of sentences
+Hand over the link and a short summary — the approach in a couple of sentences
 and the open questions. Do not paste the whole plan into the conversation; the
-file is the artifact.
+comment is the artifact.
 
 Lead the summary with what the investigation **changed** about the ticket's
 account of the problem: a cause that turned out to be different, a second
@@ -112,7 +134,8 @@ ticket, say that plainly — it is also information.
 
 When the user responds:
 
-- Edit the file in place. Do not start a second plan file or a versioned copy.
+- Edit the comment in place (`gh issue comment --edit-last`, or the comment's id).
+  Do not post a second comment holding a revised plan, and do not start a file.
 - Report what changed in a line or two, not by reprinting the plan.
 - When feedback invalidates part of the investigation, redo that part rather
   than patching the conclusion.
@@ -141,6 +164,14 @@ This is worth the minute it takes because the plan is the raw material for the
 pull request that closes the work: a plan that still describes the change
 accurately is most of the PR description already written. A plan left frozen at
 the approved draft describes work nobody did.
+
+**Then fold what implementation changed into the pull request description.** A
+comment's edit history is not in the repository and not in the diff, so the
+tracker is the wrong home for the one part of a plan that a reader of the code
+will want later: what the work turned out to require. The PR description is
+permanent, reviewable beside the change, and reachable from the commit. Say it
+there, and leave the corrected plan on the ticket for whoever is reading the
+ticket.
 
 ## Guidelines
 
