@@ -124,15 +124,22 @@ build questions on day one, when they are still cheap.
 Plan the first milestone tightly and later ones coarsely. Detail at distance is
 fiction, and it gets rewritten twice.
 
-### 4. Break it into work items
+### 4. Break it into work items, and file them
 
-Number them. Each is one unit of work with a done-condition that fits in a
-sentence — if it does not, split it. Note which milestone it belongs to and what
-it depends on.
+Each is one unit of work with a done-condition that fits in a sentence — if it
+does not, split it. Size them so a single `plan-work` plan and a single pull
+request can cover one. Do not write those plans now; the whole point of the split
+is that each item is planned when it comes up, with what the earlier items taught.
 
-Size them so a single `plan-work` plan and a single pull request can cover one.
-Do not write those plans now; the whole point of the split is that each item is
-planned when it comes up, with what the earlier items taught.
+**File them in the project's tracker rather than listing them in the document**,
+following `file-issue` for how to find the tracker and how to write one. Set each
+ticket's milestone and its **dependency links** as you file it, while the order is
+still in your head — the tracker holds the sequence, and a column in a document is
+a second copy that goes stale by being forgotten rather than by being wrong.
+
+Agree the breakdown with the user *before* filing thirty tickets, and confirm what
+the tracker charges for it: notifications, a board that now needs grooming, and in
+some trackers a per-ticket cost in someone's attention.
 
 ### 5. Write the plan where it belongs
 
@@ -141,7 +148,13 @@ Follow `~/.claude/skills/docs/project-template.md` (repo path:
 
 A project plan outlives the session and gets linked from many pull requests, so
 it belongs in the repository — `docs/projects/<slug>.md` — not in a temp
-directory. **Before writing it there, check whether the repository is public:**
+directory. **It holds the reasoning and not the schedule**: the milestones and
+why they are in that order, with the items themselves in the tracker (step 4).
+
+The test for whether anything belongs in a repository at all: *would this document
+be wrong after a week of work nobody told it about?* A generated schema reference
+cannot be. A record of what was decided and why cannot be. A list of what is next
+always can, which is why it lives where the work does. **Before writing it there, check whether the repository is public:**
 
 ```bash
 gh repo view --json visibility -q .visibility   # if gh is available

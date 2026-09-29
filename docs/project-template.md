@@ -10,7 +10,9 @@ point section spells out.
 
 A project plan answers three questions a single-change plan does not: what
 "done" actually means, what order the work happens in, and what could make the
-whole thing fail. It stops at the boundary of *how* each piece is built — that
+whole thing fail. It holds the **reasoning**, not the schedule: the work items
+themselves live in the tracker as tickets, for the reason the Work items section
+below gives. It stops at the boundary of *how* each piece is built — that
 belongs in a `plan-work` plan per work item, written when the item is next up.
 
 Detail should decay with distance. Plan the first milestone tightly and later
@@ -105,17 +107,28 @@ biggest unknown is retired earliest.>
 
 ## Work items
 
-Numbered so they can be referred to and claimed. Each is one unit of work with a
-done-condition that fits in a sentence — if it does not, split it. Each becomes
-a `plan-work` plan when it comes up, not before.
+**Not a table here — one ticket each, in the project's tracker.** Each is one
+unit of work with a done-condition that fits in a sentence; if it does not, split
+it. Each gets a `plan-work` plan on its own ticket when it comes up, not before.
 
-| # | Work item | Milestone | Depends on | Status |
-| --- | --- | --- | --- | --- |
-| 1 | <Short imperative name> | M1 | — | Not started |
-| 2 | <…> | M1 | 1 | Not started |
+The tracker holds what a table used to: the **milestone** as the tracker's
+milestone, the **dependencies** as its own dependency links (`blocked by` /
+`blocks`), and the **status** as open or closed. Set the dependencies as the
+tickets are filed, while the order is still in your head.
 
-<Under the table, a line or two on any item whose scope is not obvious from its
-name.>
+A table here would be a second copy of all four, and the copy is the one that
+goes stale: it is updated by remembering to, while the tracker is updated by
+doing the work. Measured on the project this rule came from — a 99-row table with
+zero broken links, two stale milestones, and **twelve issues that never got a
+row**, because each was filed during other work and the table was not open.
+
+What belongs in this document instead is the part a ticket cannot hold: **why the
+milestones are in this order**, one paragraph each under the milestone above.
+That is true whatever is scheduled, which is the test for whether something
+belongs in a repository at all.
+
+<A line or two on any item whose scope is not obvious from its ticket title, and
+a link to the tracker's filtered view of this project's tickets.>
 
 ## Risks and unknowns
 
