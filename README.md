@@ -30,7 +30,7 @@ CLAUDE_SKILLS_DIR=/path/to/skills ./install.sh
 ```bash
 ./tests/install-test.sh    # the install script, end to end
 ./tests/split-work-test.sh # the git mechanics split-work depends on
-./tests/triage-ci-test.sh  # the log filtering triage-ci prescribes
+./tests/triage-ci-test.sh  # the log filtering and stale-base checks triage-ci prescribes
 ./tests/lint-skills.sh     # this repo's own conventions, across every skill
 ```
 
@@ -44,6 +44,12 @@ interrupted run must both leave an already-installed skill exactly as it was.
 including proof that `git fetch` before `git push --force-with-lease` defeats
 the lease and destroys another person's commit.
 
+`triage-ci-test.sh` pins both mechanics that look right when they are wrong: the
+ESC-based colour strip that silently changes nothing, and the stale-base check,
+which reads a branch's distance from its base rather than the files it touched —
+the file-list heuristic fails precisely where drift checks exist, because a branch
+there normally does contain the generated file.
+
 ## Skills
 
 The skills form a pipeline, though each works on its own:
@@ -55,7 +61,7 @@ The skills form a pipeline, though each works on its own:
 - **plan-work** — investigates one bug or feature, from a ticket or your description, and writes an implementation plan onto the ticket for you to review and iterate on before any code is written. Reproduces a bug before planning the fix, and grounds its findings in the code with file and line references.
 - **grill-me** — interviews you relentlessly about a plan or design, one question at a time, until every branch of the decision tree is resolved. Use it on a plan you already have.
 - **address-review** — reads the outstanding review feedback on a pull request, triages it into will-fix / already-correct / needs-discussion, applies the fixes, and replies on each thread. GitHub only.
-- **triage-ci** — diagnoses a failing CI run and says whether it is a real failure, an environment difference, or a suspected flake, with the evidence. Read-only.
+- **triage-ci** — diagnoses a failing CI run and says whether it is a real failure, an environment difference, a stale base, a run that never started, or a suspected flake, with the evidence. Read-only.
 - **regression-test** — writes the test that pins a bug, and proves it fails against the broken code before accepting it. A test that has never failed has never been shown to be a test.
 - **commit** — writes the commit message for the staged changes, subject in the same format as a PR title, and advises on which commits should exist by the time the branch merges.
 - **split-work** — separates tangled work into coherent commits or branches, records a rescue point first, and verifies the pieces add up to exactly the original content. Uses non-interactive git throughout.
