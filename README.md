@@ -31,6 +31,7 @@ CLAUDE_SKILLS_DIR=/path/to/skills ./install.sh
 ./tests/install-test.sh    # the install script, end to end
 ./tests/split-work-test.sh # the git mechanics split-work depends on
 ./tests/triage-ci-test.sh  # the log filtering and stale-base checks triage-ci prescribes
+./tests/start-project-test.sh # the item-to-issue mapping start-project depends on
 ./tests/lint-skills.sh     # this repo's own conventions, across every skill
 ```
 
@@ -50,13 +51,19 @@ which reads a branch's distance from its base rather than the files it touched �
 the file-list heuristic fails precisely where drift checks exist, because a branch
 there normally does contain the generated file.
 
+`start-project-test.sh` builds a plan whose item numbers are not its issue numbers —
+the ordinary case, since GitHub shares numbering with pull requests — and proves that
+resolving dependencies without the recorded mapping wires every edge to a real but
+unrelated issue. The API accepts all of them, so there is no error to notice.
+
 ## Skills
 
 The skills form a pipeline, though each works on its own:
 
-**plan-project** → **file-issue** → **plan-work** → **grill-me** → implement → **create-pr** → **address-review**
+**plan-project** → **start-project** → **file-issue** → **plan-work** → **grill-me** → implement → **create-pr** → **address-review**
 
 - **plan-project** — turns a description of a project's end goal into a plan: checkable success criteria, milestones sequenced to retire the biggest unknown first, and a numbered work breakdown that `plan-work` picks up item by item. Covers both a new codebase started from nothing and a large body of work inside an existing one. Decides what gets built and in what order, and stops there.
+- **start-project** — turns an approved plan's work breakdown into a live tracker: GitHub milestones, one issue per work item, the blocked-by graph between them, and the repository options whose absence costs cleanup months later. Resolves dependencies in a second pass through a recorded item-to-issue mapping, because the plan's item numbers are never the tracker's, and verifies the graph by reading it back before the plan's table is retired. Creates no code.
 - **file-issue** — files a bug or a discovered piece of work in the project's real tracker, found by reading the repo rather than assumed from the host, with the report in the reporter's words and the cause traced or explicitly marked unknown. Untracked work does not exist.
 - **plan-work** — investigates one bug or feature, from a ticket or your description, and writes an implementation plan to a file for you to review and iterate on before any code is written. Reproduces a bug before planning the fix, and grounds its findings in the code with file and line references.
 - **grill-me** — interviews you relentlessly about a plan or design, one question at a time, until every branch of the decision tree is resolved. Use it on a plan you already have.

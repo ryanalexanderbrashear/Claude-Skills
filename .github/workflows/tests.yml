@@ -35,6 +35,9 @@ jobs:
       - name: triage-ci log filtering
         run: ./tests/triage-ci-test.sh
 
+      - name: start-project item-to-issue mapping
+        run: ./tests/start-project-test.sh
+
       - name: skill conventions
         run: ./tests/lint-skills.sh
 

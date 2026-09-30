@@ -134,6 +134,11 @@ Size them so a single `plan-work` plan and a single pull request can cover one.
 Do not write those plans now; the whole point of the split is that each item is
 planned when it comes up, with what the earlier items taught.
 
+**The numbers are a handoff key, not a durable identifier.** `start-project` resolves
+each item's dependencies through them to real issue numbers, and after that the
+tracker's numbers are the identity. Do not renumber the table afterwards: the mapping
+has already been consumed.
+
 ### 5. Write the plan where it belongs
 
 Follow `~/.claude/skills/docs/project-template.md` (repo path:
@@ -158,7 +163,7 @@ said so explicitly.
 
 Tell the user the full path either way.
 
-### 6. Iterate, then keep it alive
+### 6. Iterate with the user
 
 Hand over the path with a short summary: the approach in a couple of sentences,
 the milestone sequence in one line, and the open questions. Do not paste the
@@ -167,11 +172,27 @@ plan into the conversation.
 Edit the file in place as the user pushes back. Keep the open questions current,
 and mark which ones block starting versus which can wait.
 
-Once work begins the plan is live: update item status as work lands, link its
-pull requests, and re-plan later milestones as earlier ones teach you something.
-That re-planning is the design working, not a failure of the original plan.
+### 7. Hand the work breakdown to a tracker, and stop keeping the table
 
-### 7. Audit at every milestone boundary
+Once the plan is approved, run `start-project`: it creates the milestones, one issue
+per work item, the dependency edges between them, and it verifies the graph by reading
+it back before the table is retired.
+
+**Then stop maintaining the table.** A Status column is a second copy of tracker
+state that nothing updates as a consequence of the work: the tracker is updated by
+doing the work, the table by remembering to, so keeping both means one of them is
+always lying — and a reader cannot tell which half of a partial index they have.
+
+What stays is everything a tracker cannot hold: the goal, the success criteria, why
+the milestones are in this order, the risks, the non-goals. The test for anything
+else that wants to live here is **would it be wrong after a week of work nobody told
+it about?** A record of what was decided cannot be; a list of what is next always can.
+
+Re-plan later milestones as earlier ones teach you something — that is the design
+working. It now means filing and editing issues, and amending the plan where the
+reasoning changed.
+
+### 8. Audit at every milestone boundary
 
 When a milestone's last item merges, audit before starting the next, and put the
 audit in the plan as part of the sequence so it is scheduled rather than recalled.
