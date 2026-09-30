@@ -132,10 +132,17 @@ request can cover one. Do not write those plans now; the whole point of the spli
 is that each item is planned when it comes up, with what the earlier items taught.
 
 **File them in the project's tracker rather than listing them in the document**,
-following `file-issue` for how to find the tracker and how to write one. Set each
-ticket's milestone and its **dependency links** as you file it, while the order is
-still in your head — the tracker holds the sequence, and a column in a document is
-a second copy that goes stale by being forgotten rather than by being wrong.
+following `file-issue` for how to find the tracker and how to write one. The tracker
+holds the sequence, and a column in a document is a second copy that goes stale by
+being forgotten rather than by being wrong.
+
+**Milestones first, then every ticket, then the dependency links — three passes, in
+that order**, because each needs what the one before it created. Linking as you file
+looks equivalent and is not: a plan is ordered by milestone rather than by dependency,
+so a blocker filed *after* what it blocks is ordinary, and those edges are simply never
+created. Nothing reports it. Follow `~/.claude/skills/docs/tracker-setup.md` (repo path:
+`docs/tracker-setup.md`) for the passes, the commands, and why an item's number must
+never be treated as its ticket's.
 
 Agree the breakdown with the user *before* filing thirty tickets, and confirm what
 the tracker charges for it: notifications, a board that now needs grooming, and in

@@ -31,6 +31,7 @@ CLAUDE_SKILLS_DIR=/path/to/skills ./install.sh
 ./tests/install-test.sh    # the install script, end to end
 ./tests/split-work-test.sh # the git mechanics split-work depends on
 ./tests/triage-ci-test.sh  # the log filtering and stale-base checks triage-ci prescribes
+./tests/tracker-setup-test.sh # the item-to-ticket mapping a work breakdown needs
 ./tests/lint-skills.sh     # this repo's own conventions, across every skill
 ```
 
@@ -43,6 +44,11 @@ interrupted run must both leave an already-installed skill exactly as it was.
 `split-work-test.sh` covers the non-obvious git behavior the skill relies on,
 including proof that `git fetch` before `git push --force-with-lease` defeats
 the lease and destroys another person's commit.
+
+`tracker-setup-test.sh` builds a breakdown whose item numbers are not its ticket
+numbers — the ordinary case, since GitHub shares numbering with pull requests — and
+proves that resolving dependencies by arithmetic wires every edge to a real but
+unrelated ticket. The API accepts all of them, so there is no error to notice.
 
 `triage-ci-test.sh` pins both mechanics that look right when they are wrong: the
 ESC-based colour strip that silently changes nothing, and the stale-base check,
@@ -71,8 +77,9 @@ The skills form a pipeline, though each works on its own:
 
 Shared reference material, installed alongside the skills so Claude can draw on it from any project. The templates are the substance of the skills — a skill decides what to do, the template decides what the result looks like.
 
-- **[project-template.md](docs/project-template.md)** — the structure of a project plan: goal and success criteria, non-goals, constraints, starting point, approach, observability, outcome-defined milestones, a work-item table, risks, and open questions. Observability is decided with the walking skeleton, because a request id costs one wrapper at M1 and every call site afterwards.
+- **[project-template.md](docs/project-template.md)** — the structure of a project plan: goal and success criteria, non-goals, constraints, starting point, approach, observability, outcome-defined milestones, risks, and open questions — with the work items themselves in the tracker rather than a table here. Observability is decided with the walking skeleton, because a request id costs one wrapper at M1 and every call site afterwards.
 - **[plan-template.md](docs/plan-template.md)** — the structure of an implementation plan: problem, findings, root cause, approach, steps, testing, observability, risks, and open questions. Every plan assumes production code that someone will have to debug and audit — tests prove the change works on a machine you control, observability is how anyone finds out what it did on a machine you do not. Its sections map onto the PR template, so a good plan is most of the eventual PR description already written.
 - **[pr-template.md](docs/pr-template.md)** — guidelines for writing a pull request, plus a copy-paste template. Covers title format (`SEG-7777 - Bugfix - Fix for the crashing issue`), description, screenshots, testing instructions, change splash zone, risk and rollback, and related links.
+- **[tracker-setup.md](docs/tracker-setup.md)** — how a work breakdown becomes tickets: milestones, then every ticket, then the dependency links, three passes because each needs what the one before it created. Linking a dependency while filing looks equivalent and silently omits every edge whose blocker is filed later — which, since a plan is ordered by milestone rather than by dependency, is the edges that cross a boundary. Also why an item's number must never be treated as its ticket's.
 - **[milestone-audit.md](docs/milestone-audit.md)** — how to audit a milestone before starting the next one: audit by using the system rather than reading the work items, the three questions to ask, where to record the verdict, and why an audit that finds nothing is usually an audit that did not happen.
 - **[skill-template.md](docs/skill-template.md)** — the shared layout every skill here follows, and the conventions for writing a new one.
