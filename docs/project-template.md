@@ -113,8 +113,10 @@ it. Each gets a `plan-work` plan on its own ticket when it comes up, not before.
 
 The tracker holds what a table used to: the **milestone** as the tracker's
 milestone, the **dependencies** as its own dependency links (`blocked by` /
-`blocks`), and the **status** as open or closed. Set the dependencies as the
-tickets are filed, while the order is still in your head.
+`blocks`), and the **status** as open or closed. Link the dependencies once every
+ticket exists rather than as each is filed — a dependency cannot name a ticket that
+does not exist yet, and the edges that cross a milestone boundary are the ones that
+get silently omitted.
 
 A table here would be a second copy of all four, and the copy is the one that
 goes stale: it is updated by remembering to, while the tracker is updated by
