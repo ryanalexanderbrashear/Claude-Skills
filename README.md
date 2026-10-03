@@ -73,6 +73,10 @@ The skills form a pipeline, though each works on its own:
 - **split-work** — separates tangled work into coherent commits or branches, records a rescue point first, and verifies the pieces add up to exactly the original content. Uses non-interactive git throughout.
 - **create-pr** — opens a pull or merge request for the current branch on GitHub, GitLab, Bitbucket, or Azure DevOps, with the title and description written from the branch's own commits. Detects the default branch rather than assuming `main`, and detects when a branch is stacked on another unmerged branch so someone else's commits do not end up in your PR.
 
+Outside the pipeline:
+
+- **resume-tailor** — tailors the master resume to a job description as a Google Doc copy. It reads the Career Inventory live, so the personal data stays in private documents and out of this repository, and it checks every claim against that inventory. Where the role asks for something the inventory cannot support, the skill reports a gap rather than writing around it.
+
 ## Docs
 
 Shared reference material, installed alongside the skills so Claude can draw on it from any project. The templates are the substance of the skills — a skill decides what to do, the template decides what the result looks like.
