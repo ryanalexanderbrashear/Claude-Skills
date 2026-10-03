@@ -59,6 +59,12 @@ claim against the inventory even when it is copied from one.
 If either source cannot be read, stop and say what the attempt printed. A resume
 tailored without the inventory is a resume with unchecked claims.
 
+Check here that the **Google Docs** editor tools (`read_doc`, `update_doc`) are
+loaded, not just Drive. Drive can copy the master but cannot change its text, and
+finding that out after the fit table and the plan wastes both. If they are
+missing, stop: ask the user to connect Google Docs (it is a separate connector
+from Drive) and run `/mcp`, and offer to continue with only the fit report.
+
 ### 3. Map the role to the evidence
 
 Build a table of the role's requirements, one row each:
@@ -123,9 +129,25 @@ replace it or create a new copy with the role title in its name. Do not overwrit
 without asking.
 
 Copy the master with the Drive connector's copy tool. This keeps the formatting,
-which a newly created document would lose. Then edit the copy in place. Re-read
-the finished copy and compare it with the approved draft, because an edit that
-lands in the wrong cell of the experience table produces no error.
+which a newly created document would lose. Then edit the copy in place.
+
+The master's structure decides how:
+
+- Experience is a two-column table. Each bullet is its own paragraph in the left
+  cell, and the `•  ` is literal text, not list formatting. Rewrite a bullet by
+  replacing the text after those three characters, and reorder bullets by
+  rewriting each paragraph's text rather than moving paragraphs.
+- Skill labels (`Languages: `) are bold, and inserted text inherits the style
+  before it. Clear bold and italic on every inserted range in the same batch.
+- Send every edit as one `update_doc` batch, ordered from the highest index to the
+  lowest and guarded with the read's `revisionId`. Build it from the `read_doc`
+  JSON with a script rather than by hand.
+
+Re-read the finished copy and compare every paragraph with the approved draft,
+text and bold runs both, because an edit that lands in the wrong cell produces
+no error. Make sure the comparison flags the unedited copy before trusting its
+clean result. Then export both documents as PDF and check the copy has no more
+pages than the master.
 
 ### 7. Report
 
@@ -159,6 +181,7 @@ Give the user:
 
 - Career Inventory (Claude Doc):
   `https://claude.ai/code/artifact/e08f378a-8fcd-4b12-a6e3-ec6a81ff9f89`
-- Master resume (Google Doc), file ID `1niucXVK9AFheJ8TKBrNcHTrz8mjsO4LvD78WFoVqQK4`
+- Master resume (Google Doc, `Alex_Brashear_Resume_MASTER`), file ID
+  `1niucXVK9AFheJ8TKBrNcHTrz8mjsO4LvD78WFoVqQK4`
 - Tailored copies: Drive, title `Alex_Brashear_Resume - <Company>`, in the same
   folder as the master.
