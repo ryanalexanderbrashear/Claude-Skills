@@ -30,7 +30,7 @@ git remote get-url origin              # which platform
 command -v gh || command -v glab || command -v az
 ```
 
-If none is available, or the host is unrecognised, the fallback in step 5 is
+If none is available, or the host is unrecognised, the fallback in step 6 is
 what will run. Say so now rather than at the end: the user may want to install
 and authenticate the CLI first, and that is much cheaper to hear before the
 description is written than after.
@@ -94,7 +94,15 @@ commits from the base branch — they are not this branch's work.
 Read the actual diff before writing the description. The commit messages tell
 you what the author intended; only the diff tells you what the PR does.
 
-### 3. Draft the title and description
+### 3. Check the README against the change
+
+Follow `~/.claude/skills/docs/readme-check.md` (repo path:
+`docs/readme-check.md`). Search the README for the names this diff changed, and
+read only the passages that match. Fix what this branch made stale before
+pushing, in its own commit, and file older drift rather than fixing it here.
+It is a few greps, not a read of the whole README.
+
+### 4. Draft the title and description
 
 Follow `~/.claude/skills/docs/pr-template.md` (repo path: `docs/pr-template.md`)
 for the title format and every section's guidance. If the repository has its own
@@ -108,16 +116,18 @@ or `docs/pull_request_template.md` — that one wins; fill its sections instead.
 - **Testing instructions** — derive them from the tests in the diff and from how
   the changed code is actually exercised. Ask the user rather than inventing
   steps you cannot verify, and if the change is untestable, say so and why.
+  End with step 3's one line on what the README check searched for, even
+  when it found nothing.
 - **Risk, splash zone, related links** — fill from the diff. Leave a section out
   entirely if it does not apply; never ship a heading with `N/A` under it.
 
-### 4. Confirm before creating
+### 5. Confirm before creating
 
 Show the user the resolved base branch, the final title, and the full
 description. Wait for approval. Do not create the PR until they approve it, and
 do not push to a branch that has no upstream without saying so first.
 
-### 5. Push and create
+### 6. Push and create
 
 Push the branch, then create the PR with the platform's CLI. Write the
 description to a file in the scratchpad and pass it by path — bodies passed

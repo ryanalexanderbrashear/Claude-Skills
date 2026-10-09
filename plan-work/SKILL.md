@@ -73,6 +73,11 @@ Read the code. A plan written from the ticket alone is a guess.
   the error handling and the health checks on the path you are about to change,
   so the plan's Observability section names real signals rather than proposing a
   parallel set. A defect that is already logged and never noticed is a finding.
+- **Find the README passages the change will make untrue.** Search the README for
+  the commands, flags, settings, routes and ticket numbers the plan will touch,
+  and list each passage as an implementation step. Steps 1–2 of
+  `~/.claude/skills/docs/readme-check.md` say what to search for. It is a few
+  greps now, and it is a stale README after merge if nobody does it.
 - Note the file and line references as you go — the plan cites them.
 
 Distinguish what you verified from what merely produced no output. A command
