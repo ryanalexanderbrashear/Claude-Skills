@@ -94,11 +94,12 @@ commits from the base branch — they are not this branch's work.
 Read the actual diff before writing the description. The commit messages tell
 you what the author intended; only the diff tells you what the PR does.
 
-### 3. Check the README against the change
+### 3. Check the key documents against the change
 
 Follow `~/.claude/skills/docs/readme-check.md` (repo path:
-`docs/readme-check.md`). Search the README for the names this diff changed, and
-read only the passages that match. Fix what this branch made stale before
+`docs/readme-check.md`). Its scope is the key documents: README, PRODUCT, DESIGN,
+FEATURES and DEPLOY, wherever the repository has them. Search them for the names
+this diff changed, and read only the passages that match. Fix what this branch made stale before
 pushing, in its own commit, and file older drift rather than fixing it here.
 It is a few greps, not a read of the whole README.
 
@@ -116,8 +117,8 @@ or `docs/pull_request_template.md` — that one wins; fill its sections instead.
 - **Testing instructions** — derive them from the tests in the diff and from how
   the changed code is actually exercised. Ask the user rather than inventing
   steps you cannot verify, and if the change is untestable, say so and why.
-  End with step 3's one line on what the README check searched for, even
-  when it found nothing.
+  End with step 3's one line on which documents were checked and what was
+  searched for, even when it found nothing.
 - **Risk, splash zone, related links** — fill from the diff. Leave a section out
   entirely if it does not apply; never ship a heading with `N/A` under it.
 
