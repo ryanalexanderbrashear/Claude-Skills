@@ -6,8 +6,8 @@ description: Tailors Alex Brashear's master resume to a specific job description
 # Tailor a resume
 
 Turn the master resume into a copy aimed at one job description. The result is a
-Google Doc next to the master, `Alex_Brashear_Resume - <Company>`, with the same
-layout and the same facts. Only the selection, order, emphasis and wording change,
+Google Doc in the Tailored Resumes folder, `Alex_Brashear_Resume - <Company>`,
+with the same layout and the same facts. Only the selection, order, emphasis and wording change,
 and every sentence can be traced to the Career Inventory.
 
 The inventory sets the limit on what can be claimed. Tailoring means picking from
@@ -24,7 +24,8 @@ out a keyword.
 
 Do not use this to change the master resume or the inventory itself. Those are
 edited directly. Do not use it for a cover letter, though its fit report is a
-good input for one.
+good input for one. A cover letter written elsewhere still goes into Drive under
+the convention in Reference.
 
 ## Instructions
 
@@ -128,8 +129,11 @@ Load the google-workspace skill before editing. Search Drive for
 replace it or create a new copy with the role title in its name. Do not overwrite
 without asking.
 
-Copy the master with the Drive connector's copy tool. This keeps the formatting,
-which a newly created document would lose. Then edit the copy in place.
+Copy the master with the Drive connector's copy tool, passing the Tailored
+Resumes folder from Reference as the parent. This keeps the formatting, which a
+newly created document would lose. Without the parent, the copy lands next to the
+master in `Resume/` rather than with the other tailored copies. Then edit the
+copy in place.
 
 The master's structure decides how:
 
@@ -183,5 +187,25 @@ Give the user:
   `https://claude.ai/code/artifact/e08f378a-8fcd-4b12-a6e3-ec6a81ff9f89`
 - Master resume (Google Doc, `Alex_Brashear_Resume_MASTER`), file ID
   `1niucXVK9AFheJ8TKBrNcHTrz8mjsO4LvD78WFoVqQK4`
-- Tailored copies: Drive, title `Alex_Brashear_Resume - <Company>`, in the same
-  folder as the master.
+- Drive layout, all under the `Resume` folder (ID
+  `1YBL52sF_0xlrtE92PQPMd9n35sWLopnp`):
+
+  ```
+  Resume/
+  ├── Alex_Brashear_Resume_MASTER
+  ├── Tailored Resumes/
+  └── Cover Letters/
+      └── Alex_Brashear_Cover_Letter_TEMPLATE
+  ```
+
+- Tailored copies: title `Alex_Brashear_Resume - <Company>`, in **Tailored
+  Resumes** (folder ID `1pIGi82XlIjUWfiaAMuELkJ9yXd_sArkZ`).
+- Cover letters: a Google Doc titled `Alex_Brashear_Cover_Letter - <Company>`, in
+  **Cover Letters** (folder ID `1lx-KctR6ybNamEUTijo3lGgpVXG2lprv`). Its claims
+  trace to the Career Inventory under the same rules as a resume's.
+- Cover letter template (Google Doc, `Alex_Brashear_Cover_Letter_TEMPLATE`), file
+  ID `1ixxwpv9jILJUjEz5nIJ_KhlPjlMT0XbQnp8ivOc2cug`. It carries the resume's
+  header, font and margins, with `<...>` placeholders for the date, company and
+  each paragraph. Copy it into Cover Letters and replace each placeholder's text,
+  as step 6 does for the master, rather than uploading new text: an upload loses
+  the styling. Then search the copy for a remaining `<`.
