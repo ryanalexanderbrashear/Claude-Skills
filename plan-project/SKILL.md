@@ -148,7 +148,28 @@ Agree the breakdown with the user *before* filing thirty tickets, and confirm wh
 the tracker charges for it: notifications, a board that now needs grooming, and in
 some trackers a per-ticket cost in someone's attention.
 
-### 5. Write the plan where it belongs
+### 5. Write or update `PRODUCT.md` first
+
+What the product is, who it is for and why it is worth building belong in
+`PRODUCT.md` at the repository root, not in the plan. The plan links to it, so a
+project has one statement of its purpose instead of two that drift apart.
+
+- **If it exists**, read it, and update it only with durable product facts the
+  scoping in step 1 established. Never replace it, and do not reopen what it
+  already says without a reason.
+- **If it does not**, write it from the template in
+  `~/.claude/skills/impeccable/reference/init.md` (the block beginning
+  `<!-- impeccable:product-schema 1 -->`), copying that marker verbatim: it tells
+  the design tooling which version of the record this is, so it fills the gaps
+  later instead of re-interviewing. Fill only the sections the conversation
+  answered and omit the rest. If impeccable is not installed, use `# Product`,
+  `## Users`, `## Product Purpose` and `## Positioning`, without the marker.
+
+Deadlines, staffing, milestones and commercial reasoning stay out of it — they
+are the plan's, and they change. It is committed like the plan, so the
+visibility check in the next step applies to it too.
+
+### 6. Write the plan where it belongs
 
 Follow `~/.claude/skills/docs/project-template.md` (repo path:
 `docs/project-template.md`).
@@ -178,7 +199,7 @@ said so explicitly.
 
 Tell the user the full path either way.
 
-### 6. Iterate, then keep it alive
+### 7. Iterate, then keep it alive
 
 Hand over the path with a short summary: the approach in a couple of sentences,
 the milestone sequence in one line, and the open questions. Do not paste the
@@ -191,7 +212,7 @@ Once work begins the plan is live: update item status as work lands, link its
 pull requests, and re-plan later milestones as earlier ones teach you something.
 That re-planning is the design working, not a failure of the original plan.
 
-### 7. Audit at every milestone boundary
+### 8. Audit at every milestone boundary
 
 When a milestone's last item merges, audit before starting the next, and put the
 audit in the plan as part of the sequence so it is scheduled rather than recalled.
