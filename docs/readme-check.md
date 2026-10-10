@@ -17,9 +17,26 @@ case.
 
 ## The documents in scope
 
-The `README.md` at the repository root, plus any hand-written document the repository's own
-instructions (`CLAUDE.md`, `CONTRIBUTING.md`) say describes how to run, use or develop it. Skip
-generated documents. Their drift is a generator's job, and usually a CI check's.
+**The key documents, in every repository that has them.** These describe the most important parts
+of an application at a high level, so they are kept current by every change rather than audited
+now and then:
+
+- `README.md`: how to run it, develop it and the conventions.
+- `PRODUCT.md`: what it is for and who it is for.
+- `DESIGN.md`: the design system and the reasoning behind it.
+- `FEATURES.md`: what it does today and how each feature behaves.
+- `DEPLOY.md`: how it is deployed and operated.
+
+Look for each one at the root and under `docs/`, in either case (`docs/features.md`,
+`docs/deploy.md`). A repository's own instructions may name a different file for one of these
+roles, and that file is then the one in scope.
+
+Also in scope is any other hand-written document the repository's own instructions (`CLAUDE.md`,
+`CONTRIBUTING.md`) say describes how to run, use or develop it. Skip generated documents. Their
+drift is a generator's job, and usually a CI check's.
+
+Where the steps below say "the README", run them against each document in scope. A behaviour change
+usually touches `FEATURES.md` rather than the README, and a design change touches `DESIGN.md`.
 
 ## 1. List what the change renamed, removed, added or finished
 
@@ -36,8 +53,11 @@ README might meet:
 ## 2. Search for each, and read only what matches
 
 ```bash
-grep -n -i -e '<name>' -e '<another>' README.md
+grep -n -i -e '<name>' -e '<another>' README.md PRODUCT.md DESIGN.md docs/features.md docs/deploy.md
 ```
+
+List the files that actually exist rather than pasting this line. `grep` reports a missing file on
+stderr and goes on, so a misspelt path looks like a document that never mentions the change.
 
 **First, make the search find something you know is there**, such as a heading. A search that
 matches nothing looks exactly like a README that never mentions the change.
@@ -76,6 +96,9 @@ the check happened and how far it went:
 > (output summary and timing).
 
 > README: searched for `MAX_UPLOAD_BYTES`, `/assets`; nothing in it describes them.
+
+> Key documents (README, PRODUCT, DESIGN, docs/features.md): searched for `Blank`, `eras`;
+> updated docs/features.md "Worlds". The others make no such claim.
 
 "Nothing to update" is a fine result. Not saying is not, because a check nobody reports is
 indistinguishable from one that never ran.
