@@ -14,6 +14,8 @@ whole thing fail. It holds the **reasoning**, not the schedule: the work items
 themselves live in the tracker as tickets, for the reason the Work items section
 below gives. It stops at the boundary of *how* each piece is built — that
 belongs in a `plan-work` plan per work item, written when the item is next up.
+Nor does it describe the product: purpose, users and positioning live in
+`PRODUCT.md`, which the plan links to rather than restates.
 
 Detail should decay with distance. Plan the first milestone tightly and later
 ones coarsely; a fifth milestone specified to the file level is fiction, and
@@ -30,10 +32,12 @@ rewriting it after every discovery wastes the effort twice.
 
 ## Goal
 
-<What is true when this is done, in a few sentences. Write it so that someone
-can tell from the outside whether it happened.>
+What the product is, who it is for and why it is worth building:
+[PRODUCT.md](<relative path to PRODUCT.md>). Purpose and positioning live
+there, not here; do not restate them.
 
-**Success criteria**
+**Success criteria** — what is true when this project is done, checkable from
+the outside.
 
 - <A condition that can be checked, not an activity that can be performed.
   "p95 login latency under 400ms", not "optimize the login path".>
