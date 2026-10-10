@@ -195,6 +195,7 @@ Give the user:
   ├── Alex_Brashear_Resume_MASTER
   ├── Tailored Resumes/
   └── Cover Letters/
+      └── Alex_Brashear_Cover_Letter_TEMPLATE
   ```
 
 - Tailored copies: title `Alex_Brashear_Resume - <Company>`, in **Tailored
@@ -202,3 +203,9 @@ Give the user:
 - Cover letters: a Google Doc titled `Alex_Brashear_Cover_Letter - <Company>`, in
   **Cover Letters** (folder ID `1lx-KctR6ybNamEUTijo3lGgpVXG2lprv`). Its claims
   trace to the Career Inventory under the same rules as a resume's.
+- Cover letter template (Google Doc, `Alex_Brashear_Cover_Letter_TEMPLATE`), file
+  ID `1ixxwpv9jILJUjEz5nIJ_KhlPjlMT0XbQnp8ivOc2cug`. It carries the resume's
+  header, font and margins, with `<...>` placeholders for the date, company and
+  each paragraph. Copy it into Cover Letters and replace each placeholder's text,
+  as step 6 does for the master, rather than uploading new text: an upload loses
+  the styling. Then search the copy for a remaining `<`.
